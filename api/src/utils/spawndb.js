@@ -14,7 +14,7 @@ export default function spawndb( dbpath = DBPATH, logtype ) {
   let out = process.stdout
   let err = process.stderr
 
-  if ( logtype !== 'inline' ) {
+  if ( process.env.NODE_ENV === 'debug' ) {
     mkdirp.sync( LOGPATH )
     out = fs.openSync( path.join( LOGPATH, `${ Date.now() }.out.log` ), 'a' )
     err = fs.openSync( path.join( LOGPATH, `${ Date.now() }.err.log` ), 'a' )

@@ -14,7 +14,7 @@
     "build": "babel src --out-dir lib",
     "watch": "babel src --out-dir lib --watch",
     "prestart": "npm run build",
-    "start": "node lib --spawn inline | bunyan -o short"
+    "start": "NODE_ENV=debug node lib --spawn | bunyan -o short"
   },
   "config": {
     "port": "8989",
