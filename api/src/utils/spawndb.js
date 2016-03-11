@@ -35,7 +35,7 @@ export default function spawndb( dbpath = DBPATH ) {
   let out = process.stdout
   let err = process.stderr
 
-  if ( process.env.NODE_ENV !== 'debug' ) {
+  if ( process.env.NODE_ENV !== 'dev' ) {
     logger.info( `Sending DB logs to ${ LOGPATH }` )
     mkdirp.sync( LOGPATH )
     out = createStream( path.join( LOGPATH, `${ Date.now() }.out.log` ) )

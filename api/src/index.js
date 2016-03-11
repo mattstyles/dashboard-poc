@@ -12,7 +12,7 @@ logger.info( 'Starting API Process' )
 function spawnStart() {
   logger.info( 'Spawning db instance' )
 
-  if ( process.env.NODE_ENV === 'debug' ) {
+  if ( process.env.NODE_ENV === 'dev' ) {
     logger.warn( 'DB is logging to stdout' )
   }
 

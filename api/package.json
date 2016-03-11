@@ -15,8 +15,12 @@
     "prebuild": "npm run clean",
     "build": "babel src --out-dir lib",
     "watch": "babel src --out-dir lib --watch",
+    "reload": "supervisor -w lib -n exit -t true -- lib | bunyan -o short",
+    "predev": "npm run build",
+    "dev": "( npm run watch & npm run reload )",
+    "start-db": "rethinkdb -d $HOME/.rethinkdb/dashboard",
     "prestart": "npm run build",
-    "start": "NODE_ENV=debug node lib --spawn | bunyan -o short"
+    "start": "NODE_ENV=dev node lib --spawn | bunyan -o short"
   },
   "config": {
     "port": "8989",
@@ -53,6 +57,7 @@
   "devDependencies": {
     "babel-cli": "^6.6.5",
     "babel-preset-node5": "^10.8.0",
-    "bunyan": "^1.7.1"
+    "bunyan": "^1.7.1",
+    "supervisor": "^0.9.1"
   }
 }
