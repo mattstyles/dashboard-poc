@@ -8,20 +8,20 @@
 
 
 export default class BatteryEvent {
-  constructor( level, ts, id ) {
+  constructor( event={} ) {
     /**
      * Percentage battery remaining
      */
-    this.level = level || 100
+    this.level = event.level || 100
 
     /**
      * Timestamp when the event is sent (not received)
      */
-    this.ts = ts || Date.now()
+    this.ts = event.ts || Date.now()
 
     /**
      * sender id
      */
-    this.id = id
+    this.id = event.id || 'unidentified'
   }
 }

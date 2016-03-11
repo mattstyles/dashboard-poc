@@ -8,6 +8,8 @@ import connect from './utils/connect'
 import events from './services/events'
 import BatteryEvent from './models/batteryEvent'
 
+import router from './routes'
+
 const PORT = def( 'PORT', 14320 )
 
 const app = new Koa()
@@ -18,6 +20,14 @@ const app = new Koa()
 app.use( logger.attach() )
 app.use( logger.attachRequest() )
 
+/**
+ * Routes
+ */
+app.use( router.routes() )
+
+/**
+ * Events
+ */
 app.on( EVENTS.get( 'ERROR' ), logger.error )
 
 
@@ -51,13 +61,13 @@ export default function start() {
       app.listen( PORT, () => {
         logger.info( `API listening on ${ PORT } ` )
 
-        setTimeout( () => {
-          events.receive( new BatteryEvent({
-            id: 'yo yo yo',
-            ts: Date.now(),
-            level: 20
-          }))
-        }, 500 )
+        // setTimeout( () => {
+        //   events.receive( new BatteryEvent({
+        //     id: 'yo yo yo',
+        //     ts: Date.now(),
+        //     level: 20
+        //   }))
+        // }, 500 )
 
       })
     })

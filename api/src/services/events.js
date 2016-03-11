@@ -45,7 +45,7 @@ class Events extends Service {
     let key = keyFormat( date )
     let row = format( date )
 
-    this.logger.debug( 'Battery low event received:', event )
+    this.logger.info( 'Battery low event received:', event )
 
     return new Promise( ( resolve, reject ) => {
       // Grab events on the existing day
@@ -60,16 +60,17 @@ class Events extends Service {
 
           // Create a new month document if necessary
           if ( !month ) {
-            return this.insert( key, row, {
-              count: 1
-            })
+            this.insert( key, row, 1 )
+              .then( resolve )
+              .catch( reject )
+            return
           }
 
-          // Otherwise just update the count
+          // Otherwise just update the count for the day
           this.data.get( key )
-            .update({
-              count: r.row( 'count' ).add( 1 )
-            })
+            .update( Object.assign( month, {
+              [ row ]: ++month[ row ] || 1
+            }))
             .run( this.connection, error => {
               if ( error ) {
                 this.logger.error( error )
