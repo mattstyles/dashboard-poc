@@ -32,12 +32,38 @@ class Events extends Service {
   }
 
   /**
+   * Expects key to be YYYY-mm
+   */
+  getMonth( key ) {
+
+    console.log( key )
+
+    // @TODO check key is the correct format
+
+    return new Promise( ( resolve, reject ) => {
+      this.data
+        .get( key )
+        .run( this.connection, ( err, month ) => {
+          if ( err ) {
+            this.logger.error( err )
+            reject( err )
+            return
+          }
+
+          resolve( month )
+        })
+    })
+  }
+
+  /**
    * Expects event to be a battery low event instance
    */
   receive( event ) {
     if ( !( event instanceof BatteryEvent ) ) {
       throw new Error( 'Invalid battery event model passed to battery service' )
     }
+
+    // @TODO sanity check event validity
 
     // Grab date format from timestamp
     // @TODO creating date objects is potentially too slow, check ops
