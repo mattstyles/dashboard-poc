@@ -32,7 +32,7 @@ class Events extends Service {
   }
 
   /**
-   * Expects event to be
+   * Expects event to be a battery low event instance
    */
   receive( event ) {
     if ( !( event instanceof BatteryEvent ) ) {
@@ -67,10 +67,21 @@ class Events extends Service {
           }
 
           // Otherwise just update the count for the day
+          let updatedRow = {
+            [ row ]: ++month[ row ] || 1
+          }
+
+          let meta = {
+            monthTotal: ++month.meta.monthTotal,
+            numDays: month[ row ] ? month.meta.numDays : ++month.meta.numDays
+          }
+
+          meta.average = meta.monthTotal / meta.numDays
+
+          // @TODO should periodically check the validity of the data
+
           this.data.get( key )
-            .update( Object.assign( month, {
-              [ row ]: ++month[ row ] || 1
-            }))
+            .update( Object.assign( month, updatedRow, { meta } ) )
             .run( this.connection, error => {
               if ( error ) {
                 this.logger.error( error )
@@ -93,6 +104,11 @@ class Events extends Service {
       this.data
         .insert({
           [ row ]: value,
+          meta: {
+            numDays: 1,
+            monthTotal: value,
+            average: value
+          },
           id: key
         })
         .run( this.connection, err => {
