@@ -11,6 +11,8 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf lib && mkdir lib",
+    "prebuild": "npm run clean",
     "build": "babel src --out-dir lib",
     "watch": "babel src --out-dir lib --watch",
     "prestart": "npm run build",
@@ -19,7 +21,10 @@
   "config": {
     "port": "8989",
     "db_path": ".rethinkdb/dashboard",
-    "db_logpath": ".rethinkdb/tmp/logs"
+    "db_logpath": ".rethinkdb/tmp/logs",
+    "db_port": "28015",
+    "db_host": "0.0.0.0",
+    "db_id": "dashboard"
   },
   "babel": {
     "presets": [

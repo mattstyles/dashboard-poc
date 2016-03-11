@@ -2,25 +2,32 @@
 import minimist from 'minimist'
 import spawndb from './utils/spawndb'
 import logger from './utils/logger'
-import app from './server'
-import EVENTS from './events'
+import def from './utils/default'
+import start from './server'
 
 const args = minimist( process.argv.slice( 2 ) )
 
-if ( args.spawn ) {
+logger.info( 'Starting API Process' )
+
+function spawnStart() {
   logger.info( 'Spawning db instance' )
 
   if ( process.env.NODE_ENV === 'debug' ) {
     logger.warn( 'DB is logging to stdout' )
   }
 
-  spawndb( process.env.DBPATH || undefined, args.spawn )
+  let db = spawndb( process.env.DBPATH || undefined )
+
+  db.on( 'error', err => {
+    logger.error( err )
+    db.kill()
+    process.exit( 1 )
+  })
+
+  db.on( 'ready', () => {
+    start()
+  })
 }
 
-const PORT = process.env.PORT || process.env.npm_package_config_port || 14320
-
-app.on( EVENTS.get( 'READY' ), () => {
-  app.listen( PORT, () => {
-    logger.info( `Listening on ${ PORT } ` )
-  })
-})
+// Switch on the spawned or regular starts
+args.spawn ? spawnStart() : start()
