@@ -19,14 +19,126 @@ export default class Service {
 
     this.tableID = null
     this.logger = opts.logger
+
+    /**
+     * Connection ref to the db
+     */
+    this.connection = null
+
+    /**
+     * Refers to the connection to the specific db table for this service
+     */
+    this.data = null
   }
 
+  /**
+   * Gets or creates a new database within rethinkdb
+   * @param conn <TcpConnection> Rethinkdb connection
+   * @param id <String> database is to connect to
+   */
+  _getDB = ( conn, id ) => {
+    if ( !conn ) {
+      throw new Error( 'Attempting to access db before connection is ready' )
+    }
+
+    return new Promise( ( resolve, reject ) => {
+      r.dbList().run( conn, ( listError, res ) => {
+        if ( listError ) {
+          this.logger.error( 'Error listing databases' )
+          reject( err )
+          return
+        }
+
+        if ( res.indexOf( id ) >= 0 ) {
+          this.logger.info( 'Service connected to database' )
+          resolve( r.db( id ) )
+          return
+        }
+
+        this.logger.info( 'Creating new database:', id )
+
+        r.dbCreate( id )
+          .run( conn, createError => {
+            if ( createError ) {
+              this.logger.error( 'Error creating database:', id )
+              reject( createError )
+              return
+            }
+
+            this.logger.info( 'Database created successfully:', id )
+            resolve( r.db( id ) )
+          })
+      })
+    })
+  }
+
+  /**
+   * Gets or creates a new table within the database
+   * @param conn <TcpConnection> Rethinkdb connection
+   * @param db <Rethink:DB> database connection
+   * @param id <String> table is to get
+   */
+  _getTable = ( conn, db, id ) => {
+    if ( !conn ) {
+      throw new Error( 'Attempting to access table before connection is ready' )
+    }
+
+    if ( !db ) {
+      throw new Error( 'Can not create table within unspecified database' )
+    }
+
+    return new Promise( ( resolve, reject ) => {
+      db.tableList().run( conn, ( listError, res ) => {
+        if ( listError ) {
+          this.logger.error( 'Error listing tables' )
+          reject( err )
+          return
+        }
+
+        if ( res.indexOf( id ) >= 0 ) {
+          this.logger.info( 'Service connected to data' )
+          resolve( db.table( id ) )
+          return
+        }
+
+        this.logger.info( 'Creating new table:', id )
+
+        db.tableCreate( id )
+          .run( conn, createError => {
+            if ( createError ) {
+              this.logger.error( 'Error creating table:', id )
+              reject( createError )
+              return
+            }
+
+            this.logger.info( 'Data table created successfully:', id )
+            resolve( db.table( id ) )
+          })
+      })
+    })
+  }
+
+  /**
+   * Creates or connects to the table required by this service
+   */
   _setup = connection => {
     return new Promise( ( resolve, reject ) => {
 
-      this.logger.info( 'Service setup' )
-      resolve()
+      this._getDB( connection, CONFIG.get( 'DB_ID' ) )
+        .then( db => {
+          // Store database connection
+          this.connection = db
 
+          return this._getTable( connection, db, this.tableID )
+        })
+        .then( data => {
+          // Store table connection
+          this.data = data
+        })
+        .then( done => {
+          this.logger.info( 'Service ready' )
+          resolve()
+        })
     })
 
   }
@@ -45,6 +157,14 @@ export default class Service {
     }
   }
 
+  /**
+   * Creates a connection to the db table/s required by the service
+   * @param options <Object>
+   *   @param connection <TcpConnection> to rethinkdb
+   *   @param host <String> to attempt a connection
+   *   @param port <Number> port number to attempt connnection
+   * @returns <Promise> resolves when the service is ready
+   */
   connect( options ) {
     return new Promise( ( resolve, reject ) => {
 
