@@ -124,11 +124,10 @@ export default class Service {
   _setup = connection => {
     return new Promise( ( resolve, reject ) => {
 
+      this.connection = connection
+
       this._getDB( connection, CONFIG.get( 'DB_ID' ) )
         .then( db => {
-          // Store database connection
-          this.connection = db
-
           return this._getTable( connection, db, this.tableID )
         })
         .then( data => {

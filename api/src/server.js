@@ -5,7 +5,8 @@ import EVENTS from './events'
 import def from './utils/default'
 import connect from './utils/connect'
 
-import Service from './services/service'
+import events from './services/events'
+import BatteryEvent from './models/batteryEvent'
 
 const PORT = def( 'PORT', 14320 )
 
@@ -28,12 +29,9 @@ app.on( EVENTS.get( 'ERROR' ), logger.error )
 function startServices( connection ) {
   logger.info( 'Establishing Service Connections' )
 
-  // dummy service
-  let serv = new Service()
-  serv.tableID = 'test'
-
+  // We only have the one service source at the moment
   return Promise.all([
-    serv.connect({
+    events.connect({
       connection: connection
     })
   ])
@@ -52,6 +50,15 @@ export default function start() {
 
       app.listen( PORT, () => {
         logger.info( `API listening on ${ PORT } ` )
+
+        setTimeout( () => {
+          events.receive( new BatteryEvent({
+            id: 'yo yo yo',
+            ts: Date.now(),
+            level: 20
+          }))
+        }, 500 )
+
       })
     })
     .catch( err => {

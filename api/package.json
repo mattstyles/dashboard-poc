@@ -41,6 +41,7 @@
   "dependencies": {
     "chalk": "^1.1.1",
     "co-body": "^4.0.0",
+    "d3-time-format": "^0.3.1",
     "filter-object": "^2.1.0",
     "koa": "^2.0.0-alpha.3",
     "koa-bunyan-log": "^2.0.1",
