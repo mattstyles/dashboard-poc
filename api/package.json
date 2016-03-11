@@ -33,6 +33,9 @@
   "babel": {
     "presets": [
       "node5"
+    ],
+    "plugins": [
+      "babel-plugin-transform-class-properties"
     ]
   },
   "dependencies": {
@@ -56,6 +59,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.6.5",
+    "babel-plugin-transform-class-properties": "^6.6.0",
     "babel-preset-node5": "^10.8.0",
     "bunyan": "^1.7.1",
     "supervisor": "^0.9.1"

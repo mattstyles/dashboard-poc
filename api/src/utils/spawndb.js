@@ -10,8 +10,8 @@ const logger = new Logger({
   name: 'dashboard-db-spawn'
 })
 
-const DBPATH = path.join( osenv.home(), process.env.npm_package_config_db_path )
-const LOGPATH = path.join( osenv.home(), process.env.npm_package_config_db_logpath )
+const DBPATH = path.join( osenv.home(), process.env.npm_package_config_db_path || 'dashboard-api' )
+const LOGPATH = path.join( osenv.home(), process.env.npm_package_config_db_logpath || 'logs' )
 const CONNECTION_TIMEOUT = 10000
 
 /**
