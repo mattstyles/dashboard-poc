@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard POC</title>
+</head>
+<body>
+  <h1>Batteries Not Included</h1>
+  <code>{{ data }}</code>
+</body>
+</html>

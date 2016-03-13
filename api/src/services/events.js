@@ -9,7 +9,8 @@ import BatteryEvent from '../models/batteryEvent'
 // YYYY-mm-dd e.g. 2016-03-08
 // mm [01,12]
 // dd [01,31]
-const format = timeFormat( '%Y-%m-%d' )
+// const format = timeFormat( '%Y-%m-%d' )
+const format = timeFormat( '%d' )
 
 // Data is stored by month
 // Purely as an example of how it could be stored
@@ -35,9 +36,6 @@ class Events extends Service {
    * Expects key to be YYYY-mm
    */
   getMonth( key ) {
-
-    console.log( key )
-
     // @TODO check key is the correct format
 
     return new Promise( ( resolve, reject ) => {
@@ -72,6 +70,7 @@ class Events extends Service {
     let row = format( date )
 
     this.logger.info( 'Battery low event received:', event )
+    this.logger.info( key, row )
 
     return new Promise( ( resolve, reject ) => {
       // Grab events on the existing day
@@ -94,7 +93,9 @@ class Events extends Service {
 
           // Otherwise just update the count for the day
           let updatedRow = {
-            [ row ]: ++month[ row ] || 1
+            days: {
+              [ row ]: ++month.days[ row ] || 1
+            }
           }
 
           let meta = {
@@ -129,7 +130,9 @@ class Events extends Service {
     return new Promise( ( resolve, reject ) => {
       this.data
         .insert({
-          [ row ]: value,
+          days: {
+            [ row ]: value
+          },
           meta: {
             numDays: 1,
             monthTotal: value,

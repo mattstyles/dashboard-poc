@@ -7,7 +7,6 @@ export default async ctx => {
   var res = null
 
   try {
-    console.log( ctx.params )
     let keyFormat = `${ ctx.params.year }-${ ctx.params.month }`
     res = await events.getMonth( keyFormat )
   } catch( err ) {
@@ -29,8 +28,6 @@ export default async ctx => {
     }
     return
   }
-
-  console.log( res )
 
   ctx.status = 200
   ctx.body = {

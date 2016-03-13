@@ -8,7 +8,6 @@ export default async ctx => {
   var res = null
 
   try {
-    console.log( body )
     await events.receive( new BatteryEvent( body ) )
   } catch( err ) {
     ctx.status = 500

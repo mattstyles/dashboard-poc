@@ -1,5 +1,12 @@
 
+import path from 'path'
+
+import co from 'co'
 import Koa from 'koa'
+import convert from 'koa-convert'
+import serve from 'koa-static'
+import views from 'koa-views'
+
 import logger from './utils/logger'
 import EVENTS from './events'
 import def from './utils/default'
@@ -11,6 +18,7 @@ import BatteryEvent from './models/batteryEvent'
 import router from './routes'
 
 const PORT = def( 'PORT', 14320 )
+const EXPIRY = 1000 * 60 * 60 * 24 * 30
 
 const app = new Koa()
 
@@ -23,7 +31,32 @@ app.use( logger.attachRequest() )
 /**
  * Routes
  */
+
+app.use( convert( views( path.join( __dirname, 'tmpl' ), {
+  map: {
+    hjs: 'hogan'
+  }
+})))
+
+
+
 app.use( router.routes() )
+
+app.use( convert( serve( path.join( __dirname, 'public' ), {
+  maxage: process.env.NODE_ENV === 'production' ? EXPIRY : 0
+})))
+
+// Index
+app.use( async ( ctx, next ) => {
+  ctx.render = co.wrap( ctx.render.bind( ctx ) )
+
+  // Grab initial data and populate view
+  let month = await events.getMonth( '2016-03' )
+  console.log( month )
+  await ctx.render( 'index.hjs', {
+    data: month
+  })
+})
 
 /**
  * Events
@@ -60,15 +93,6 @@ export default function start() {
 
       app.listen( PORT, () => {
         logger.info( `API listening on ${ PORT } ` )
-
-        // setTimeout( () => {
-        //   events.receive( new BatteryEvent({
-        //     id: 'yo yo yo',
-        //     ts: Date.now(),
-        //     level: 20
-        //   }))
-        // }, 500 )
-
       })
     })
     .catch( err => {
