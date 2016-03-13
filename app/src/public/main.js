@@ -4,9 +4,6 @@ const average = document.querySelector( '.js-average-value' )
 const total = document.querySelector( '.js-total-value' )
 const graph = document.querySelector( '.js-graph' )
 
-// Render initial graph
-nav[ 0 ].click()
-
 const monthNames = {
   january: '01',
   february: '02',
@@ -29,7 +26,7 @@ function strip( elements ) {
 }
 
 function onData( data ) {
-  average.innerHTML = data.meta.average
+  average.innerHTML = data.meta.average.toFixed( 2 )
   total.innerHTML = data.meta.monthTotal
 
   graph.innerHTML = ''
@@ -57,3 +54,7 @@ function onData( data ) {
       })
   })
 })
+
+
+// Render initial graph
+nav[ 0 ].click()

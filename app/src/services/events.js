@@ -123,7 +123,7 @@ class Events extends Service {
 
           let meta = {
             monthTotal: ++month.meta.monthTotal,
-            numDays: month[ row ] ? month.meta.numDays : ++month.meta.numDays
+            numDays: month.days[ row ] ? month.meta.numDays : ++month.meta.numDays
           }
 
           meta.average = meta.monthTotal / meta.numDays

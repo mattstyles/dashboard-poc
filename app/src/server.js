@@ -59,18 +59,30 @@ app.use( async ( ctx, next ) => {
   // Grab initial data and populate view
   let data = await events.getAll()
 
-  // Map keys to human-readable, push to an array and render template
-  let mapped = data.reduce( ( prev, current ) => {
-    let days = []
-    Object.keys( current.days ).forEach( day => {
-      days.push( current.days[ day ] )
+  // Map keys to human-readable, push to an array, order and render template
+  let mapped = data
+    .reduce( ( prev, current ) => {
+      prev.push( current )
+      return prev
+    }, [] )
+    .sort( ( a, b ) => {
+      return a.id > b.id
     })
-    current.days = days
-    current.id = format( current.id )
-    prev.push( current )
-    return prev
-  }, [] )
-  ctx.logger.info( 'Using data', mapped )
+    .reverse()
+    .map( item => {
+      let days = []
+      Object.keys( item.days ).forEach( day => {
+        days.push( item.days[ day ] )
+      })
+      item.days = days
+      item.id = format( item.id )
+      return item
+    })
+
+  ctx.logger.info( 'Using data', mapped.map( item => {
+    item.days = item.days.join( ' ' )
+    return item
+  }) )
   await ctx.render( 'index.hjs', {
     data: mapped
   })
