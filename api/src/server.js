@@ -6,6 +6,7 @@ import Koa from 'koa'
 import convert from 'koa-convert'
 import serve from 'koa-static'
 import views from 'koa-views'
+import { timeParse, timeFormat } from 'd3-time-format'
 
 import logger from './utils/logger'
 import EVENTS from './events'
@@ -19,6 +20,11 @@ import router from './routes'
 
 const PORT = def( 'PORT', 14320 )
 const EXPIRY = 1000 * 60 * 60 * 24 * 30
+
+const format = time => {
+  time = timeParse( '%Y-%m' )( time )
+  return timeFormat( '%B %Y' )( time )
+}
 
 const app = new Koa()
 
@@ -51,10 +57,22 @@ app.use( async ( ctx, next ) => {
   ctx.render = co.wrap( ctx.render.bind( ctx ) )
 
   // Grab initial data and populate view
-  let month = await events.getMonth( '2016-03' )
-  console.log( month )
+  let data = await events.getAll()
+
+  // Map keys to human-readable, push to an array and render template
+  let mapped = data.reduce( ( prev, current ) => {
+    let days = []
+    Object.keys( current.days ).forEach( day => {
+      days.push( current.days[ day ] )
+    })
+    current.days = days
+    current.id = format( current.id )
+    prev.push( current )
+    return prev
+  }, [] )
+  ctx.logger.info( 'Using data', mapped )
   await ctx.render( 'index.hjs', {
-    data: month
+    data: mapped
   })
 })
 

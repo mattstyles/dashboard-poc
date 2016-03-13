@@ -5,7 +5,38 @@
   <title>Dashboard POC</title>
 </head>
 <body>
-  <h1>Batteries Not Included</h1>
-  <code>{{ data }}</code>
+  <header class="Header">
+    <h1 class="Title">Dashboard POC</h1>
+  </header>
+  <aside class="Navigation">
+    <nav class="Nav">
+      <ul class="u-nakedList">
+        {{#data}}
+          <li class="Nav-Item" data-id="{{ id }}">{{ id }}</li>
+        {{/data}}
+      </ul>
+    </nav>
+  </aside>
+  <section class="Main">
+    {{#data}}
+      <div class="StatBlock Average">
+        <span class="StatBlock-Title">Average</span>
+        <span class="StatBlock-Value">{{ meta.average }}</span>
+      </div>
+      <div class="StatBlock Total">
+        <span class="StatBlock-Title">Total</span>
+        <span class="StatBlock-Value">{{ meta.monthTotal }}</span>
+      </div>
+      <div class="Graph">
+        {{#days}}
+          <span
+            class="Graph-Item"
+            style="height: {{ . }}px">
+            {{ . }}
+          </span>
+        {{/days}}
+      </div>
+    {{/data}}
+  </section>
 </body>
 </html>

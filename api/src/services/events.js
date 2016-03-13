@@ -33,6 +33,29 @@ class Events extends Service {
   }
 
   /**
+   * Returns every month bucket
+   */
+  getAll() {
+    return new Promise( ( resolve, reject ) => {
+      this.data.run( this.connection, ( err, cursor ) => {
+        if ( err ) {
+          logger.error( 'Error accesing data table' )
+          return reject( err )
+        }
+
+        cursor.toArray( ( error, res ) => {
+          if ( error ) {
+            logger.error( 'Error turning cursor into an array' )
+            return reject( err )
+          }
+
+          resolve( res )
+        })
+      })
+    })
+  }
+
+  /**
    * Expects key to be YYYY-mm
    */
   getMonth( key ) {
