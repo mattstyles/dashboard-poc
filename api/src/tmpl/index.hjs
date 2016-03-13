@@ -14,7 +14,7 @@
     <nav class="Nav">
       <ul class="u-nakedList">
         {{#data}}
-          <li class="Nav-Item" data-id="{{ id }}">{{ id }}</li>
+          <li class="Nav-Item js-navItem" data-id="{{ id }}">{{ id }}</li>
         {{/data}}
       </ul>
     </nav>
@@ -32,15 +32,15 @@
         <span class="StatBlock-Title">Total</span>
         <span class="StatBlock-Value js-total-value">{{ meta.monthTotal }}</span>
       </div>
-      <div class="Graph">
+      <div class="Graph js-graph">
         {{#days}}
           <span
             class="Graph-Item"
-            style="height: {{ . }}px">
-          </span>
+            style="height: {{ . }}px"></span>
         {{/days}}
       </div>
     {{/data}}
   </section>
+  <script src="main.js" charset="utf-8"></script>
 </body>
 </html>
