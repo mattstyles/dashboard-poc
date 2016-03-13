@@ -1,0 +1,23 @@
+{
+  "name": "dashboard-poc",
+  "version": "0.0.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "dashboard-poc": "seed.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "./bin/seed.js -n 300"
+  },
+  "config": {
+    "port": 8989
+  },
+  "author": "Matt Styles",
+  "license": "ISC",
+  "dependencies": {
+    "minimist": "^1.2.0",
+    "superagent": "^1.8.0"
+  }
+}

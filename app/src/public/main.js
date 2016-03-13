@@ -4,6 +4,9 @@ const average = document.querySelector( '.js-average-value' )
 const total = document.querySelector( '.js-total-value' )
 const graph = document.querySelector( '.js-graph' )
 
+// Render initial graph
+nav[ 0 ].click()
+
 const monthNames = {
   january: '01',
   february: '02',

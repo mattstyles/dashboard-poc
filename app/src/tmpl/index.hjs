@@ -23,23 +23,15 @@
     <header class="Header">
       <h1 class="Title">Dashboard POC</h1>
     </header>
-    {{#data}}
-      <div class="StatBlock Average">
-        <span class="StatBlock-Title">Average</span>
-        <span class="StatBlock-Value js-average-value">{{ meta.average }}</span>
-      </div>
-      <div class="StatBlock Total">
-        <span class="StatBlock-Title">Total</span>
-        <span class="StatBlock-Value js-total-value">{{ meta.monthTotal }}</span>
-      </div>
-      <div class="Graph js-graph">
-        {{#days}}
-          <span
-            class="Graph-Item"
-            style="height: {{ . }}px"></span>
-        {{/days}}
-      </div>
-    {{/data}}
+    <div class="StatBlock Average">
+      <span class="StatBlock-Title">Average</span>
+      <span class="StatBlock-Value js-average-value">0</span>
+    </div>
+    <div class="StatBlock Total">
+      <span class="StatBlock-Title">Total</span>
+      <span class="StatBlock-Value js-total-value">0</span>
+    </div>
+    <div class="Graph js-graph"></div>
   </section>
   <script src="main.js" charset="utf-8"></script>
 </body>
