@@ -1,0 +1,86 @@
+
+body {
+  font-family: 'Helvetica Neue', 'Lucida Grande', Arial, sans-serif;
+  font-size: 10px;
+  background: rgb( 247, 247, 247 );
+  color: rgb( 48, 48, 48 );
+  -webkit-font-smoothing: anti-aliased;
+  moz-osx-font-smoothing: greyscale;
+}
+
+.u-nakedList {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.Header {
+  background: rgb( 232, 232, 232 );
+  padding: 0 24px;
+}
+.Title {
+  font-size: 1.4em;
+  line-height: 4.2em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.Navigation {
+  float:left;
+  width: 230px;
+  min-height: 100vh;
+  background: rgb( 24, 24, 24 );
+}
+.Nav-Item {
+  font-size: 1.3em;
+  line-height: 2.9em;
+  color: rgb( 164, 166, 170 );
+  text-transform: uppercase;
+  padding: 0 24px;
+  cursor: pointer;
+}
+.Nav-Item--isActive {
+  background: rgb( 252, 64, 76 );
+  color: rgb( 255, 255, 255 );
+}
+
+.Main {
+  margin-left: 230px;
+}
+
+.StatBlock {
+  display: inline-block;
+  width: 160px;
+  background: rgb( 252, 64, 76 );
+  color: rgb( 255, 255, 255 );
+  margin: 24px;
+}
+.StatBlock span {
+  display: block;
+  text-align: center;
+}
+.StatBlock-Title {
+  font-size: 1.1em;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  line-height: 2.6em;
+  margin: 8px 0 0;
+}
+.StatBlock-Value {
+  font-size: 4.4em;
+  line-height: 1;
+  margin: 0 0 16px;
+}
+
+.Graph {
+  display: block;
+  margin: 24px;
+  background: rgb( 255, 255, 255 );
+  padding: 24px;
+}
+.Graph-Item {
+  display: inline-block;
+  width: 4px;
+  margin: 0 0 0 2px;
+  background: rgb( 252, 64, 76 );
+}

@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>Dashboard POC</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" charset="utf-8">
+  <link rel="stylesheet" href="styles.css" charset="utf-8">
 </head>
 <body>
-  <header class="Header">
-    <h1 class="Title">Dashboard POC</h1>
-  </header>
   <aside class="Navigation">
     <nav class="Nav">
       <ul class="u-nakedList">
@@ -18,21 +20,23 @@
     </nav>
   </aside>
   <section class="Main">
+    <header class="Header">
+      <h1 class="Title">Dashboard POC</h1>
+    </header>
     {{#data}}
       <div class="StatBlock Average">
         <span class="StatBlock-Title">Average</span>
-        <span class="StatBlock-Value">{{ meta.average }}</span>
+        <span class="StatBlock-Value js-average-value">{{ meta.average }}</span>
       </div>
       <div class="StatBlock Total">
         <span class="StatBlock-Title">Total</span>
-        <span class="StatBlock-Value">{{ meta.monthTotal }}</span>
+        <span class="StatBlock-Value js-total-value">{{ meta.monthTotal }}</span>
       </div>
       <div class="Graph">
         {{#days}}
           <span
             class="Graph-Item"
             style="height: {{ . }}px">
-            {{ . }}
           </span>
         {{/days}}
       </div>
