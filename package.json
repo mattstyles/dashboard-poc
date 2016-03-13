@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "setup": "( cd app && npm install && npm run build)",
+    "setup": "npm i && ( cd app && npm install && npm run build)",
     "seed": "./bin/seed.js -n 300",
     "start": "npm run setup && ( cd app; npm start )"
   },
@@ -19,7 +19,7 @@
   "author": "Matt Styles",
   "license": "ISC",
   "dependencies": {
-    "minimist": "^1.2.0",
-    "superagent": "^1.8.0"
+    "minimist": "1.2.0",
+    "superagent": "1.8.0"
   }
 }
