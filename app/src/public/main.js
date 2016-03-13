@@ -45,6 +45,8 @@ function onData( data ) {
 
     let date = el.dataset.id.split( /\s/ )
     date[ 0 ] = monthNames[ date[ 0 ].toLowerCase() ]
+
+    // @TODO cache result
     fetch( '/month/' + date[ 1 ] + '/' + date[ 0 ] )
       .then( res => res.json() )
       .then( data => onData( data.message ) )
