@@ -19,7 +19,7 @@ npm run seed
 
 ## Pre-requisites
 
-* [Node version 5](https://nodejs.org/dist/v5.8.0/node-v5.8.0.pkg)
+* [Node version 5.8](https://nodejs.org/dist/v5.8.0/node-v5.8.0.pkg)
 * [Rethinkdb version 2.2](https://www.rethinkdb.com/docs/install/)
 * Chrome or Firefox
 
