@@ -60,9 +60,9 @@ export default function spawndb( dbpath = DBPATH ) {
 
   // Add a timer to ensure that our server ready event is firing correctly,
   // throw an error if there is an issue connecting.
-  let connectionTimeout = setTimeout( () => {
-    db.emit( 'error', new Error( 'Can not verify DB server has started' ) )
-  }, CONNECTION_TIMEOUT )
+  // let connectionTimeout = setTimeout( () => {
+  //   db.emit( 'error', new Error( 'Can not verify DB server has started' ) )
+  // }, CONNECTION_TIMEOUT )
 
 
   db.stdout.on( 'data', data => {
@@ -70,9 +70,9 @@ export default function spawndb( dbpath = DBPATH ) {
     // for development/testing. We'll give it 10 seconds and throw an
     // error if there is a problem reading that the server is ready.
     if ( /^server\sready/i.test( data.toString() ) ) {
-      clearTimeout( connectionTimeout )
+      // clearTimeout( connectionTimeout )
       logger.info( 'Spawned Database Server Ready' )
-      db.emit( 'ready' )
+      // db.emit( 'ready' )
     }
 
     out.write( `${ data }`)

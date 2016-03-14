@@ -23,10 +23,12 @@ function spawnStart() {
     db.kill()
     process.exit( 1 )
   })
+  // 
+  // db.on( 'ready', () => {
+  //   start()
+  // })
 
-  db.on( 'ready', () => {
-    start()
-  })
+  start()
 }
 
 // Switch on the spawned or regular starts
