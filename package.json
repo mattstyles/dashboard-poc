@@ -19,7 +19,7 @@
   "author": "Matt Styles",
   "license": "ISC",
   "dependencies": {
-    "minimist": "1.2.0",
+    "minimist": "1.2.5",
     "superagent": "1.8.0"
   }
 }
